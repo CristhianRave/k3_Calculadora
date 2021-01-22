@@ -51,7 +51,7 @@ class Selector(ttk.Frame):
     tipus = 'R'
 
     def __init__(self, parent, command, tipus='R'):
-        ttk.Frame.__init__(self, parent, width=WIDTHBTN*2, height=HEIGHTBTN)
+        ttk.Frame.__init__(self, parent, width=WIDTHBTN, height=HEIGHTBTN)
 
         self.pack_propagate(0)
         self.tipus = tipus
@@ -63,11 +63,11 @@ class Selector(ttk.Frame):
         self.value.set(self.tipus)
 
 
-        self.__rbR = ttk.Radiobutton(self, text='Romano', variable=self.value, value='R', command=lambda: command('R'))
-        self.__rbA = ttk.Radiobutton(self, text='Arábigo', variable=self.value, value='A', command=lambda: command('A'))
+        self.__rbR = ttk.Radiobutton(self, text='R', variable=self.value, value='R', command=lambda: command('R'))
+        self.__rbA = ttk.Radiobutton(self, text='A', variable=self.value, value='A', command=lambda: command('A'))
 
-        self.__rbR.pack(side=TOP, fill=BOTH, expand=True)
-        self.__rbA.pack(side=TOP, fill=BOTH, expand=True)
+        self.__rbR.pack(side=LEFT, fill=Y)
+        self.__rbA.pack(side=LEFT, fill=Y)
 
     def selected(self, *args):
         self.command(self.value.get())
@@ -150,21 +150,21 @@ class Calculator(ttk.Frame):
 
         return layoutRoman
 
-    def __init__(self, parent, modo='R'):
+    def __init__(self, parent, modo='A'):
         ttk.Frame.__init__(self, parent)
 
         self.modo = modo
 
         self.pantalla = Display(self)
-        self.pantalla.grid(column=0, row=0, columnspan=4)
+        self.pantalla.grid(column=0, row=0, columnspan=5)
 
         self.layoutRoman = self.__createLayoutRoman()
 
         self.layoutArabic = self.__createLayoutArabic()
 
         self.selector = Selector(self, command=self.eligeModo, tipus=self.modo)
-        self.selector.grid(column=0, row=5, columnspan=2, sticky=W+S)
-
+        self.selector.grid(column=0, row=5, sticky=W+S)
+        
 
 
 
@@ -218,11 +218,11 @@ class Calculator(ttk.Frame):
     def eligeModo(self, modo):
         self.modo = modo
         if modo == 'A':
-            print('Tengo que ser alfanumérica')
+            print('Arabiga')
             self.layoutRoman.grid_forget()
             self.layoutArabic.grid(column=0, row=1, columnspan=4, rowspan=5)
         elif modo == 'R':
-            print('Tengo que ser romana')
+            print('Romana')
             self.layoutArabic.grid_forget()
             self.layoutRoman.grid(column=0, row=1, columnspan=4, rowspan=5)
 
